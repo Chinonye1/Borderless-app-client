@@ -5,9 +5,12 @@ import { SignupPatientPage } from "./pages/auth/SignupPatientPage";
 import { SignupPhysicianPage } from "./pages/auth/SignupPhysicianPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import "./App.css";
+import { NavBar } from "./components/navBar";
 
 function App() {
   return (
+    <>
+    <NavBar/>
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
@@ -15,6 +18,7 @@ function App() {
       <Route path="/signup/physician" element={<SignupPhysicianPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
+    </>
   );
 }
 
