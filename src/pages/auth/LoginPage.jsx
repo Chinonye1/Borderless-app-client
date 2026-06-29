@@ -33,9 +33,8 @@ export function LoginPage() {
       navigate("/");
     } catch (error) {
       console.log(error);
-      
-        setErrorMessage(error.response?.data?.errorMessage || "Login failed");
-      
+
+      setErrorMessage(error.response?.data?.errorMessage || "Login failed");
     }
   };
 
