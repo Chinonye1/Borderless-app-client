@@ -21,6 +21,6 @@ export function ProtectedRoute({ children, role }) {
     return <Navigate to="/" />;
   }
 
-  // 4. All good — render the protected page
+ 
   return children;
 }
