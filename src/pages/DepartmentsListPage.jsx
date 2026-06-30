@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import service from "../services/service.config";
+import { DepartmentCard } from "../components/DepartmentCard";
 
 import {
   Container,
@@ -9,11 +9,6 @@ import {
   Grid,
   Box,
   Card,
-  CardContent,
-  CardMedia,
-  CardActionArea,
-  Stack,
-  Chip,
   CircularProgress,
 } from "@mui/material";
 
@@ -65,43 +60,7 @@ export function DepartmentsListPage() {
       <Grid container spacing={3}>
         {filteredDepartments.map((dept) => (
           <Grid size={{ xs: 12, sm: 6, md: 4 }} key={dept._id}>
-            <Card sx={{ height: "100%" }}>
-              <CardActionArea
-                component={Link}
-                to={`/departments/${dept._id}`}
-                sx={{ height: "100%" }}
-              >
-                {dept.image && (
-                  <CardMedia
-                    component="img"
-                    height="160"
-                    image={dept.image}
-                    alt={dept.name}
-                  />
-                )}
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    {dept.name}
-                  </Typography>
-                  {dept.description && (
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      {dept.description}
-                    </Typography>
-                  )}
-                  <Stack direction="row" spacing={0.5} useFlexGap flexWrap="wrap">
-                    {(dept.specialties || []).slice(0, 3).map((sp) => (
-                      <Chip
-                        key={sp}
-                        label={sp}
-                        size="small"
-                        variant="outlined"
-                        color="primary"
-                      />
-                    ))}
-                  </Stack>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+            <DepartmentCard department={dept} />
           </Grid>
         ))}
       </Grid>
