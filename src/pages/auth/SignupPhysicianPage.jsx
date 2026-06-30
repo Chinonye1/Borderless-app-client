@@ -1,5 +1,17 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  Container,
+  Paper,
+  Box,
+  Stack,
+  Grid,
+  TextField,
+  MenuItem,
+  Button,
+  Typography,
+  Alert,
+} from "@mui/material";
 import service from "../../services/service.config";
 
 export function SignupPhysicianPage() {
@@ -55,82 +67,129 @@ export function SignupPhysicianPage() {
   };
 
   return (
-    <div>
-      <h1>Sign up — Physician</h1>
-      <form onSubmit={handleSignup}>
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+    <Container maxWidth="sm" sx={{ py: 6 }}>
+      <Paper sx={{ p: 4 }}>
+        <Typography variant="h4" gutterBottom textAlign="center">
+          Join as a physician
+        </Typography>
+        <Typography color="text.secondary" textAlign="center" sx={{ mb: 3 }}>
+          Set up your profile in a couple of minutes.
+        </Typography>
 
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <Box component="form" onSubmit={handleSignup}>
+          <Stack spacing={2}>
+            <TextField
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              helperText="Min 8 chars, with an uppercase, a lowercase and a number"
+              fullWidth
+            />
+            <TextField
+              label="Full name"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+              fullWidth
+            />
 
-        <label>Full name:</label>
-        <input
-          type="text"
-          value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
-        />
-        <label>Country:</label>
-        <input
-          type="text"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
-        <label>Specialty:</label>
-        <input
-          type="text"
-          value={specialty}
-          onChange={(e) => setSpecialty(e.target.value)}
-        />
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <TextField
+                  label="Country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  fullWidth
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <TextField
+                  label="Age"
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
 
-        <label>Languages:</label>
-        <input
-          type="text"
-          value={languages}
-          onChange={(e) => setLanguages(e.target.value)}
-        />
+            <TextField
+              label="Languages"
+              value={languages}
+              onChange={(e) => setLanguages(e.target.value)}
+              helperText="Comma-separated, e.g. English, French"
+              fullWidth
+            />
 
-        <label>Age:</label>
-        <input
-          type="number"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-        />
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <TextField
+                  label="Specialty"
+                  value={specialty}
+                  onChange={(e) => setSpecialty(e.target.value)}
+                  fullWidth
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <TextField
+                  label="Consultation fee"
+                  type="number"
+                  value={consultfee}
+                  onChange={(e) => setConsultfee(e.target.value)}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
 
-        <label>Consultation fee:</label>
-        <input
-          type="number"
-          value={consultfee}
-          onChange={(e) => setConsultfee(e.target.value)}
-        />
+            <TextField
+              select
+              label="Department"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              fullWidth
+            >
+              <MenuItem value="">-- choose department --</MenuItem>
+              {departmentList.map((element) => (
+                <MenuItem key={element._id} value={element._id}>
+                  {element.name}
+                </MenuItem>
+              ))}
+            </TextField>
 
-        <label>Image:</label>
-        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+            <Button variant="outlined" component="label">
+              {image ? "Change photo" : "Upload photo"}
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </Button>
+            {image && (
+              <Typography variant="body2" color="text.secondary">
+                {image.name}
+              </Typography>
+            )}
 
-        <label>Department:</label>
-        <select
-          value={department}
-          onChange={(e) => setDepartment(e.target.value)}
-        >
-          <option value="">-- choose department --</option>
-          {departmentList.map((element) => (
-            <option key={element._id} value={element._id}>
-              {element.name}
-            </option>
-          ))}
-        </select>
+            {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
-        <button type="submit">Sign up</button>
-        {errorMessage && <p>{errorMessage}</p>}
-      </form>
-    </div>
+            <Button type="submit" variant="contained" size="large" fullWidth>
+              Create account
+            </Button>
+          </Stack>
+        </Box>
+
+        <Typography sx={{ mt: 2 }} textAlign="center">
+          Already have an account? <Link to="/login">Login</Link>
+        </Typography>
+      </Paper>
+    </Container>
   );
 }

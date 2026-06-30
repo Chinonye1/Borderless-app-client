@@ -1,8 +1,19 @@
 import service from "../../services/service.config";
 
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  Container,
+  Paper,
+  Box,
+  Stack,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+} from "@mui/material";
 import { AuthContext } from "../../context/auth.context";
+import { loginSchema } from "../../validators/auth.validators";
 
 export function LoginPage() {
   const { authenticateUser } = useContext(AuthContext);
@@ -12,12 +23,21 @@ export function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
+  
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+      const result = loginSchema.safeParse({ email, password });
+  if (!result.success) {
+    setFormErrors(result.error.flatten().fieldErrors);
+    return; // stop — don't call the API with bad input
+  }
+  setFormErrors({}); // clear old errors on a valid submit
 
     try {
       const body = { email, password };
@@ -39,34 +59,46 @@ export function LoginPage() {
   };
 
   return (
-    <div>
-      <h1>Login Form</h1>
+    <Container maxWidth="sm" sx={{ py: 8 }}>
+      <Paper sx={{ p: 4 }}>
+        <Typography variant="h4" gutterBottom textAlign="center">
+          Welcome back
+        </Typography>
 
-      <form onSubmit={handleLogin}>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleEmailChange}
-        />
+        <Box component="form" onSubmit={handleLogin}>
+          <Stack spacing={2}>
+            <TextField
+              label="Email"
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              error={!!formErrors.email}
+              helperText={formErrors.email?.[0]}
+              fullWidth
+            />
 
-        <br />
+            <TextField
+              label="Password"
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              error={!!formErrors.password}
+              helperText={formErrors.password?.[0]}
+              fullWidth
+            />
 
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
+            {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
-        <br />
+            <Button type="submit" variant="contained" size="large" fullWidth>
+              Login
+            </Button>
+          </Stack>
+        </Box>
 
-        <button type="submit">Login</button>
-
-        {errorMessage && <p>{errorMessage}</p>}
-      </form>
-    </div>
+        <Typography sx={{ mt: 2 }} textAlign="center">
+          No account? <Link to="/signup/patient">Sign up</Link>
+        </Typography>
+      </Paper>
+    </Container>
   );
 }

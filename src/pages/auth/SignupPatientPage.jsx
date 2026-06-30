@@ -1,5 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  Container,
+  Paper,
+  Box,
+  Stack,
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+} from "@mui/material";
 import service from "../../services/service.config";
 
 export function SignupPatientPage() {
@@ -46,74 +57,122 @@ export function SignupPatientPage() {
   };
 
   return (
-    <div>
-      <h1>Sign up — Patient</h1>
-      <form onSubmit={handleSignup}>
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+    <Container maxWidth="sm" sx={{ py: 6 }}>
+      <Paper sx={{ p: 4 }}>
+        <Typography variant="h4" gutterBottom textAlign="center">
+          Create your account
+        </Typography>
+        <Typography color="text.secondary" textAlign="center" sx={{ mb: 3 }}>
+          Set up your profile in a couple of minutes.
+        </Typography>
 
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <Box component="form" onSubmit={handleSignup}>
+          <Stack spacing={2}>
+            <TextField
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              helperText="Min 8 chars, with an uppercase, a lowercase and a number"
+              fullWidth
+            />
+            <TextField
+              label="Full name"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+              fullWidth
+            />
 
-        <label>Full name:</label>
-        <input
-          type="text"
-          value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
-        />
-        <label>Country:</label>
-        <input
-          type="text"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
-        <label>Specialist needed:</label>
-        <input
-          type="text"
-          value={specialistneeded}
-          onChange={(e) => setSpecialistneeded(e.target.value)}
-        />
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <TextField
+                  label="Country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  fullWidth
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <TextField
+                  label="Age"
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
 
-        <label>Languages:</label>
-        <input
-          type="text"
-          value={languages}
-          onChange={(e) => setLanguages(e.target.value)}
-        />
+            <TextField
+              label="Languages"
+              value={languages}
+              onChange={(e) => setLanguages(e.target.value)}
+              helperText="Comma-separated, e.g. English, French"
+              fullWidth
+            />
+            <TextField
+              label="Specialist needed"
+              value={specialistneeded}
+              onChange={(e) => setSpecialistneeded(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              label="Describe your condition"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              multiline
+              rows={3}
+              fullWidth
+            />
 
-        <label>Age:</label>
-        <input
-          type="number"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-        />
+            <Button variant="outlined" component="label">
+              {image ? "Change photo" : "Upload photo"}
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </Button>
+            {image && (
+              <Typography variant="body2" color="text.secondary">
+                {image.name}
+              </Typography>
+            )}
 
-        <label>Description:</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+            <Button variant="outlined" component="label">
+              {documentFile ? "Change document" : "Upload document"}
+              <input
+                type="file"
+                hidden
+                onChange={(e) => setDocumentFile(e.target.files[0])}
+              />
+            </Button>
+            {documentFile && (
+              <Typography variant="body2" color="text.secondary">
+                {documentFile.name}
+              </Typography>
+            )}
 
-        <label>Photo:</label>
-        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+            {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
-        <label>Document:</label>
-        <input
-          type="file"
-          onChange={(e) => setDocumentFile(e.target.files[0])}
-        />
+            <Button type="submit" variant="contained" size="large" fullWidth>
+              Create account
+            </Button>
+          </Stack>
+        </Box>
 
-        <button type="submit">Sign up</button>
-        {errorMessage && <p>{errorMessage}</p>}
-      </form>
-    </div>
+        <Typography sx={{ mt: 2 }} textAlign="center">
+          Already have an account? <Link to="/login">Login</Link>
+        </Typography>
+      </Paper>
+    </Container>
   );
 }
