@@ -19,7 +19,7 @@ export function PhysicianCard({ physician }) {
         sx={{ height: "100%" }}
       >
         <CardContent>
-          <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+          <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
             <Avatar
               src={physician.image}
               alt={physician.user?.fullname}

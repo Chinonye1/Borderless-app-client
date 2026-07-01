@@ -56,7 +56,7 @@ export function NavBar() {
         </Stack>
 
        
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ ml: "auto" }}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center", ml: "auto" }}>
           {user ? (
             <>
               <Button component={Link} to="/profile" color="inherit">

@@ -241,7 +241,7 @@ export function HomePage() {
                     {r.comment && (
                       <Typography sx={{ fontStyle: "italic", mb: 3 }}>"{r.comment}"</Typography>
                     )}
-                    <Stack direction="row" spacing={2} alignItems="center">
+                    <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
                       <Avatar sx={{ bgcolor: "secondary.main" }}>
                         {r.patient?.user?.fullname?.[0] || "?"}
                       </Avatar>

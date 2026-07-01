@@ -69,7 +69,7 @@ return (
   <Container maxWidth="sm" sx={{ py: 4 }}>
     <Paper sx={{ p: 4 }}>
      
-      <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
+      <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 3 }}>
         <Avatar src={profile?.image} sx={{ width: 64, height: 64 }}>
           {user?.fullname?.[0]}
         </Avatar>

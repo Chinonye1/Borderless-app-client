@@ -139,7 +139,7 @@ export function DepartmentDetailPage() {
             ))}
           </Stack>
           {reviews.length > 0 && (
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <Rating value={avg} precision={0.5} readOnly />
               <Typography color="text.secondary">
                 {avg.toFixed(1)} ({reviews.length} review
@@ -208,8 +208,7 @@ export function DepartmentDetailPage() {
                 <Stack
                   direction="row"
                   spacing={2}
-                  alignItems="center"
-                  sx={{ mb: 1 }}
+                  sx={{ alignItems: "center", mb: 1 }}
                 >
                   <Avatar sx={{ bgcolor: "secondary.main" }}>
                     {r.patient?.user?.fullname?.[0] || "?"}
