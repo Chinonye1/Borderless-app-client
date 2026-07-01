@@ -57,7 +57,6 @@ export function DepartmentDetailPage() {
       }
     };
     loadData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [departmentId]);
 
   const handleSubmitReview = async (e) => {
@@ -65,13 +64,19 @@ export function DepartmentDetailPage() {
     setErrorMessage("");
     setSubmitting(true);
     try {
-      await service.post("/reviews", { department: departmentId, rating, comment });
+      await service.post("/reviews", {
+        department: departmentId,
+        rating,
+        comment,
+      });
       setComment("");
       setRating(5);
-      await fetchReviews(); // refresh the list with the new review
+      await fetchReviews();
     } catch (error) {
       console.log(error);
-      setErrorMessage(error.response?.data?.errorMessage || "Could not submit review");
+      setErrorMessage(
+        error.response?.data?.errorMessage || "Could not submit review",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -101,10 +106,14 @@ export function DepartmentDetailPage() {
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      {/* ===== Department header ===== */}
       <Paper sx={{ overflow: "hidden", mb: 4 }}>
         {department.image && (
-          <CardMedia component="img" height="240" image={department.image} alt={department.name} />
+          <CardMedia
+            component="img"
+            height="240"
+            image={department.image}
+            alt={department.name}
+          />
         )}
         <Box sx={{ p: 4 }}>
           <Typography variant="h4" gutterBottom>
@@ -118,7 +127,13 @@ export function DepartmentDetailPage() {
           {department.description && (
             <Typography sx={{ my: 2 }}>{department.description}</Typography>
           )}
-          <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ mb: 2 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            useFlexGap
+            flexWrap="wrap"
+            sx={{ mb: 2 }}
+          >
             {(department.specialties || []).map((sp) => (
               <Chip key={sp} label={sp} color="primary" variant="outlined" />
             ))}
@@ -127,7 +142,8 @@ export function DepartmentDetailPage() {
             <Stack direction="row" spacing={1} alignItems="center">
               <Rating value={avg} precision={0.5} readOnly />
               <Typography color="text.secondary">
-                {avg.toFixed(1)} ({reviews.length} review{reviews.length > 1 ? "s" : ""})
+                {avg.toFixed(1)} ({reviews.length} review
+                {reviews.length > 1 ? "s" : ""})
               </Typography>
             </Stack>
           )}
@@ -159,7 +175,9 @@ export function DepartmentDetailPage() {
                 onChange={(e) => setComment(e.target.value)}
                 fullWidth
               />
-              {errorMessage && <Typography color="error">{errorMessage}</Typography>}
+              {errorMessage && (
+                <Typography color="error">{errorMessage}</Typography>
+              )}
               <Button
                 type="submit"
                 variant="contained"
@@ -179,14 +197,20 @@ export function DepartmentDetailPage() {
       </Typography>
       {reviews.length === 0 ? (
         <Typography color="text.secondary">
-          No reviews yet. {user?.role === "patient" && "Be the first to leave one!"}
+          No reviews yet.{" "}
+          {user?.role === "patient" && "Be the first to leave one!"}
         </Typography>
       ) : (
         <Stack spacing={2}>
           {reviews.map((r) => (
             <Card key={r._id}>
               <CardContent>
-                <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1 }}>
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  alignItems="center"
+                  sx={{ mb: 1 }}
+                >
                   <Avatar sx={{ bgcolor: "secondary.main" }}>
                     {r.patient?.user?.fullname?.[0] || "?"}
                   </Avatar>
@@ -200,7 +224,9 @@ export function DepartmentDetailPage() {
                   </Box>
                 </Stack>
                 <Rating value={r.rating} readOnly size="small" />
-                {r.comment && <Typography sx={{ mt: 1 }}>{r.comment}</Typography>}
+                {r.comment && (
+                  <Typography sx={{ mt: 1 }}>{r.comment}</Typography>
+                )}
               </CardContent>
             </Card>
           ))}
