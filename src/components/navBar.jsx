@@ -24,7 +24,7 @@ export function NavBar() {
   return (
     <AppBar position="sticky" color="inherit" elevation={1} sx={{ bgcolor: "#fff" }}>
       <Toolbar sx={{ gap: 1 }}>
-        {/* Logo / brand */}
+        
         <Box
           component={Link}
           to="/"
@@ -36,7 +36,7 @@ export function NavBar() {
           </Typography>
         </Box>
 
-        {/* center nav links */}
+       
         <Stack direction="row" spacing={1} sx={{ ml: 3, flexGrow: 1, display: { xs: "none", md: "flex" } }}>
           {PUBLIC_LINKS.map((l) => (
             <Button key={l.to} component={Link} to={l.to} color="inherit">
@@ -55,7 +55,7 @@ export function NavBar() {
           )}
         </Stack>
 
-        {/* right side: auth */}
+       
         <Stack direction="row" spacing={1} alignItems="center" sx={{ ml: "auto" }}>
           {user ? (
             <>
